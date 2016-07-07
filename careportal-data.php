@@ -111,9 +111,15 @@ class Careportal_Data {
 		$keyword = '';
 
 		if ( ! empty( $args['keyword'] ) ) {
-			$keyword = sanitize_text_field( $args['keyword'] );
 
-			$output = $data->$keyword;
+            if ( 'last_updated' == $args['keyword'] ) {
+                $keyword = $args['keyword'];
+                $output = date( 'l, F j, Y g:i A', strtotime( $data->$keyword . ' +2 hours') );
+            } else {
+                $keyword = sanitize_text_field( $args['keyword'] );
+                $output = $data->$keyword;
+            }
+
 		}
 
 		return $output;
