@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: CarePortal Data
-Version: 2.3
+Version: 2.4
 Description: Makes shortcodes for Impact Report data
 Author: Topher
 Author URI: http://topher1kenobe.com
@@ -128,6 +128,11 @@ class Careportal_Data {
 				$output = date( 'l, F j, Y g:i A', strtotime( $data->$keyword . ' +2 hours' ) );
 			} else {
 				$keyword = sanitize_text_field( $args['keyword'] );
+
+				if ( is_numeric( $data->$keyword ) ) {
+					$data->$keyword = number_format( round( $data->$keyword ) );
+				}
+
 				$output = $data->$keyword;
 			}
 		}
