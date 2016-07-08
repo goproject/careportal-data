@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: CarePortal Data
-Version: 2.2
+Version: 2.3
 Description: Makes shortcodes for Impact Report data
 Author: Topher
 Author URI: http://topher1kenobe.com
@@ -64,17 +64,22 @@ class Careportal_Data {
 	 * @access	protected
 	 * @return	null
 	 */
-	private function get_data() {
+	private function get_data( $source = '' ) {
 
 		$output = '';
 
 		$json = '';
 
-		// check to see if input var exists.  If so, set var to _GET var.  If not, set to United-States
+		$impact_area = 'United-States';
+
+		// check to see if GET var exists.	If so, set var to _GET var.
 		if ( isset( $_GET['impact-area'] ) && '' != sanitize_text_field( $_GET['impact-area'] ) ) { // Input var okay.
 			$impact_area = sanitize_text_field( $_GET['impact-area'] ); // Input var okay.
-		} else {
-			$impact_area = 'United-States';
+		}
+
+		// check to see if input var exists.  If so, set var to $source var.
+		if ( isset( $source ) && '' != ( $source ) ) {
+			$impact_area = sanitize_text_field( $source );
 		}
 
 		// check to see if file exists. If so, open it up
@@ -98,28 +103,33 @@ class Careportal_Data {
 	 * Choose the value of one item from the Array and return it for a shortcode
 	 *
 	 * @access	protected
-	 * @param   array   $args
+	 * @param	array	$args
 	 * @return	class	$output
 	 */
 	public function get_value( $args ) {
-
-		// go get the data
-		$data = $this->get_data();
 
 		$output = '';
 
 		$keyword = '';
 
+		if ( isset( $args['file'] ) && '' != $args['file'] ) {
+			$file = $args['file'];
+		} else {
+			$file = '';
+		}
+
+		// go get the data
+		$data = $this->get_data( $file );
+
 		if ( ! empty( $args['keyword'] ) ) {
 
-            if ( 'last_updated' == $args['keyword'] ) {
-                $keyword = $args['keyword'];
-                $output = date( 'l, F j, Y g:i A', strtotime( $data->$keyword . ' +2 hours') );
-            } else {
-                $keyword = sanitize_text_field( $args['keyword'] );
-                $output = $data->$keyword;
-            }
-
+			if ( 'last_updated' == $args['keyword'] ) {
+				$keyword = $args['keyword'];
+				$output = date( 'l, F j, Y g:i A', strtotime( $data->$keyword . ' +2 hours' ) );
+			} else {
+				$keyword = sanitize_text_field( $args['keyword'] );
+				$output = $data->$keyword;
+			}
 		}
 
 		return $output;
