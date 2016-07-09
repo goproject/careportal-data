@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: CarePortal Data
-Version: 2.4
+Version: 2.5
 Description: Makes shortcodes for Impact Report data
 Author: Topher
 Author URI: http://topher1kenobe.com
