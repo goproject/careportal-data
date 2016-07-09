@@ -112,10 +112,18 @@ class Careportal_Data {
 
 		$keyword = '';
 
+		// find out if we're looking at a custom data source or not
 		if ( isset( $args['file'] ) && '' != $args['file'] ) {
 			$file = $args['file'];
 		} else {
 			$file = '';
+		}
+
+		// find out if we're looking for a raw integer or not
+		if ( isset( $args['raw'] ) && 'true' == $args['raw'] ) {
+			$raw = 'true';
+		} else {
+			$raw = '';
 		}
 
 		// go get the data
@@ -129,7 +137,7 @@ class Careportal_Data {
 			} else {
 				$keyword = sanitize_text_field( $args['keyword'] );
 
-				if ( is_numeric( $data->$keyword ) ) {
+				if ( is_numeric( $data->$keyword ) && '' == $raw ) {
 					$data->$keyword = number_format( round( $data->$keyword ) );
 				}
 
