@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: CarePortal Data
-Version: 2.5
+Version: 2.6
 Description: Makes shortcodes for Impact Report data
 Author: Topher
 Author URI: http://topher1kenobe.com
@@ -70,7 +70,7 @@ class Careportal_Data {
 
 		$json = '';
 
-		$impact_area = 'United-States';
+		$impact_area = 'default';
 
 		// check to see if GET var exists.	If so, set var to _GET var.
 		if ( isset( $_GET['impact-area'] ) && '' != sanitize_text_field( $_GET['impact-area'] ) ) { // Input var okay.
